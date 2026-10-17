@@ -866,6 +866,878 @@
     "manifest.schema"
    ],
    "note": "the last path component is empty"
+  },
+  {
+   "id": "raw-depth-128-valid",
+   "raw_text": "{\"schema_version\":1,\"devcontainer_path\":\".devcontainer/devcontainer.json\",\"projects_path\":\"projects\",\"bundles\":[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]}",
+   "expect_codes": [
+    "manifest.bundles_deferred"
+   ],
+   "note": "nesting depth exactly 128 (object, bundles array and 126 arrays) passes the depth bound"
+  },
+  {
+   "id": "raw-depth-129-in-object",
+   "raw_text": "{\"schema_version\":1,\"devcontainer_path\":\".devcontainer/devcontainer.json\",\"projects_path\":\"projects\",\"bundles\":[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]}",
+   "expect_codes": [
+    "manifest.syntax"
+   ],
+   "note": "depth 129 inside an otherwise valid object"
+  },
+  {
+   "id": "raw-size-65536-valid",
+   "expect_codes": [],
+   "generate_bytes": {
+    "total": 65536,
+    "template": "{\"schema_version\":1,\"devcontainer_path\":\".devcontainer/devcontainer.json\",\"projects_path\":\"projects\",\"bundles\":[]}",
+    "padding": "space",
+    "padding_after_template": true
+   },
+   "note": "exactly 64 KiB is accepted"
+  },
+  {
+   "id": "v2-project-bad-escape-zz",
+   "document": {
+    "schema_version": 2,
+    "devcontainer_path": ".devcontainer/devcontainer.json",
+    "projects_path": "projects",
+    "bundles": [],
+    "project": {
+     "url": "https://f.example/o/a%zz",
+     "path": "projects/a%zz"
+    }
+   },
+   "expect_codes": [
+    "manifest.schema"
+   ]
+  },
+  {
+   "id": "v2-project-bad-escape-short",
+   "document": {
+    "schema_version": 2,
+    "devcontainer_path": ".devcontainer/devcontainer.json",
+    "projects_path": "projects",
+    "bundles": [],
+    "project": {
+     "url": "https://f.example/o/a%2",
+     "path": "projects/a%2"
+    }
+   },
+   "expect_codes": [
+    "manifest.schema"
+   ]
+  },
+  {
+   "id": "v2-project-good-escape",
+   "document": {
+    "schema_version": 2,
+    "devcontainer_path": ".devcontainer/devcontainer.json",
+    "projects_path": "projects",
+    "bundles": [],
+    "project": {
+     "url": "https://f.example/o%2Fx/a.git",
+     "path": "projects/a"
+    }
+   },
+   "expect_codes": [],
+   "note": "well formed percent escapes outside the repository name are accepted and kept verbatim"
+  },
+  {
+   "id": "v2-project-http-scheme",
+   "document": {
+    "schema_version": 2,
+    "devcontainer_path": ".devcontainer/devcontainer.json",
+    "projects_path": "projects",
+    "bundles": [],
+    "project": {
+     "url": "http://f.example/o/a.git",
+     "path": "projects/a"
+    }
+   },
+   "expect_codes": [
+    "manifest.schema"
+   ]
+  },
+  {
+   "id": "v2-project-url-2048",
+   "document": {
+    "schema_version": 2,
+    "devcontainer_path": ".devcontainer/devcontainer.json",
+    "projects_path": "projects",
+    "bundles": [],
+    "project": {
+     "url": "https://f.example/o/aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+     "path": "projects/aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+    }
+   },
+   "expect_codes": [],
+   "note": "2048 characters is the longest accepted URL"
+  },
+  {
+   "id": "v2-project-url-2049",
+   "document": {
+    "schema_version": 2,
+    "devcontainer_path": ".devcontainer/devcontainer.json",
+    "projects_path": "projects",
+    "bundles": [],
+    "project": {
+     "url": "https://f.example/o/aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+     "path": "projects/aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+    }
+   },
+   "expect_codes": [
+    "manifest.schema"
+   ]
+  },
+  {
+   "id": "v2-project-double-git",
+   "document": {
+    "schema_version": 2,
+    "devcontainer_path": ".devcontainer/devcontainer.json",
+    "projects_path": "projects",
+    "bundles": [],
+    "project": {
+     "url": "https://f.example/o/r.git.git",
+     "path": "projects/r.git"
+    }
+   },
+   "expect_codes": [],
+   "note": "exactly one trailing .git is removed"
+  },
+  {
+   "id": "v2-project-double-git-wrong-path",
+   "document": {
+    "schema_version": 2,
+    "devcontainer_path": ".devcontainer/devcontainer.json",
+    "projects_path": "projects",
+    "bundles": [],
+    "project": {
+     "url": "https://f.example/o/r.git.git",
+     "path": "projects/r"
+    }
+   },
+   "expect_codes": [
+    "manifest.schema"
+   ]
+  },
+  {
+   "id": "v2-project-github-suffix",
+   "document": {
+    "schema_version": 2,
+    "devcontainer_path": ".devcontainer/devcontainer.json",
+    "projects_path": "projects",
+    "bundles": [],
+    "project": {
+     "url": "https://f.example/o/a.github",
+     "path": "projects/a.github"
+    }
+   },
+   "expect_codes": [],
+   "note": ".git is removed only as a whole trailing suffix"
+  },
+  {
+   "id": "v2-project-port-0",
+   "document": {
+    "schema_version": 2,
+    "devcontainer_path": ".devcontainer/devcontainer.json",
+    "projects_path": "projects",
+    "bundles": [],
+    "project": {
+     "url": "https://f.example:0/o/a.git",
+     "path": "projects/a"
+    }
+   },
+   "expect_codes": [
+    "manifest.schema"
+   ],
+   "note": "ports are 1 to 65535"
+  },
+  {
+   "id": "v2-project-port-65535",
+   "document": {
+    "schema_version": 2,
+    "devcontainer_path": ".devcontainer/devcontainer.json",
+    "projects_path": "projects",
+    "bundles": [],
+    "project": {
+     "url": "https://f.example:65535/o/a.git",
+     "path": "projects/a"
+    }
+   },
+   "expect_codes": []
+  },
+  {
+   "id": "v2-project-port-65536",
+   "document": {
+    "schema_version": 2,
+    "devcontainer_path": ".devcontainer/devcontainer.json",
+    "projects_path": "projects",
+    "bundles": [],
+    "project": {
+     "url": "https://f.example:65536/o/a.git",
+     "path": "projects/a"
+    }
+   },
+   "expect_codes": [
+    "manifest.schema"
+   ]
+  },
+  {
+   "id": "v2-project-port-99999",
+   "document": {
+    "schema_version": 2,
+    "devcontainer_path": ".devcontainer/devcontainer.json",
+    "projects_path": "projects",
+    "bundles": [],
+    "project": {
+     "url": "https://f.example:99999/o/a.git",
+     "path": "projects/a"
+    }
+   },
+   "expect_codes": [
+    "manifest.schema"
+   ]
+  },
+  {
+   "id": "v2-project-empty-path-component",
+   "document": {
+    "schema_version": 2,
+    "devcontainer_path": ".devcontainer/devcontainer.json",
+    "projects_path": "projects",
+    "bundles": [],
+    "project": {
+     "url": "https://f.example//r",
+     "path": "projects/r"
+    }
+   },
+   "expect_codes": [
+    "manifest.schema"
+   ],
+   "note": "an empty component in the URL path is refused"
+  },
+  {
+   "id": "raw-huge-integer-version",
+   "raw_text": "{\"schema_version\":99999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999,\"devcontainer_path\":\".devcontainer/devcontainer.json\",\"projects_path\":\"projects\",\"bundles\":[]}",
+   "expect_codes": [
+    "manifest.schema"
+   ],
+   "note": "an integer beyond any implementation's range is a well-formed non-1/2 version, never a syntax error (Python's 4300 digit limit must not leak)"
+  },
+  {
+   "id": "raw-lone-high-surrogate",
+   "raw_text": "{\"schema_version\":2,\"devcontainer_path\":\".devcontainer/devcontainer.json\",\"projects_path\":\"projects\",\"bundles\":[],\"name\":\"\\ud800\"}",
+   "expect_codes": [
+    "manifest.encoding"
+   ],
+   "note": "a lone surrogate escape is not valid Unicode text (Go would substitute U+FFFD); refused fail-closed as encoding"
+  },
+  {
+   "id": "raw-lone-low-surrogate",
+   "raw_text": "{\"schema_version\":2,\"devcontainer_path\":\".devcontainer/devcontainer.json\",\"projects_path\":\"projects\",\"bundles\":[],\"name\":\"a\\udc00\"}",
+   "expect_codes": [
+    "manifest.encoding"
+   ]
+  },
+  {
+   "id": "raw-surrogate-in-key",
+   "raw_text": "{\"\\ud800\":1}",
+   "expect_codes": [
+    "manifest.encoding"
+   ]
+  },
+  {
+   "id": "raw-surrogate-pair-valid",
+   "raw_text": "{\"schema_version\":2,\"devcontainer_path\":\".devcontainer/devcontainer.json\",\"projects_path\":\"projects\",\"bundles\":[],\"name\":\"\\ud83d\\ude00\"}",
+   "expect_codes": [
+    "manifest.schema"
+   ],
+   "note": "a well formed pair is a valid character; the name grammar then refuses it"
+  },
+  {
+   "id": "multi-code-order",
+   "document": {
+    "schema_version": 2,
+    "devcontainer_path": "/abs",
+    "projects_path": "projects",
+    "bundles": [
+     1
+    ],
+    "name": "My"
+   },
+   "expect_codes": [
+    "manifest.schema",
+    "manifest.path_invalid",
+    "manifest.bundles_deferred"
+   ],
+   "note": "several findings are reported once each; the set of codes is compared, order is not part of the contract (check_repo.py lists them in the catalogue order of validate-findings.json)"
+  },
+  {
+   "id": "path-dot-git-trailing-space",
+   "document": {
+    "schema_version": 1,
+    "devcontainer_path": ".devcontainer/devcontainer.json",
+    "projects_path": ".git ",
+    "bundles": []
+   },
+   "expect_codes": [
+    "manifest.path_invalid"
+   ],
+   "note": "trailing dots and spaces are trimmed from a component before the .git comparison (Windows-style normalization, fail-closed)"
+  },
+  {
+   "id": "path-dot-git-trailing-dot-case",
+   "document": {
+    "schema_version": 1,
+    "devcontainer_path": ".devcontainer/devcontainer.json",
+    "projects_path": "a/.GIT./b",
+    "bundles": []
+   },
+   "expect_codes": [
+    "manifest.path_invalid"
+   ]
+  },
+  {
+   "id": "path-dot-git-trailing-dots",
+   "document": {
+    "schema_version": 1,
+    "devcontainer_path": ".devcontainer/devcontainer.json",
+    "projects_path": ".git..",
+    "bundles": []
+   },
+   "expect_codes": [
+    "manifest.path_invalid"
+   ]
+  },
+  {
+   "id": "path-dot-git-mixed-trailing",
+   "document": {
+    "schema_version": 1,
+    "devcontainer_path": ".devcontainer/devcontainer.json",
+    "projects_path": "a/.Git. ./b",
+    "bundles": []
+   },
+   "expect_codes": [
+    "manifest.path_invalid"
+   ]
+  },
+  {
+   "id": "path-ok-git-prefix-dot",
+   "document": {
+    "schema_version": 1,
+    "devcontainer_path": ".devcontainer/devcontainer.json",
+    "projects_path": ".gitx.",
+    "bundles": []
+   },
+   "expect_codes": [],
+   "note": "only a component that is .git after trimming is refused"
+  },
+  {
+   "id": "v3-and-abs-path",
+   "document": {
+    "schema_version": 3,
+    "devcontainer_path": "/abs",
+    "projects_path": "projects",
+    "bundles": []
+   },
+   "expect_codes": [
+    "manifest.schema"
+   ],
+   "note": "an unsupported schema_version ends validation: no path findings are reported"
+  },
+  {
+   "id": "raw-surrogate-and-duplicate",
+   "raw_text": "{\"a\":\"\\ud800\",\"a\":1}",
+   "expect_codes": [
+    "manifest.encoding"
+   ],
+   "note": "a lone surrogate outranks a repeated key"
+  },
+  {
+   "id": "raw-surrogate-key-and-duplicate",
+   "raw_text": "{\"\\ud800\":1,\"a\":1,\"a\":1}",
+   "expect_codes": [
+    "manifest.encoding"
+   ]
+  },
+  {
+   "id": "path-dots-and-space-component",
+   "document": {
+    "schema_version": 1,
+    "devcontainer_path": ".devcontainer/devcontainer.json",
+    "projects_path": "a/.. /b",
+    "bundles": []
+   },
+   "expect_codes": [
+    "manifest.path_invalid"
+   ],
+   "note": "a component of only dots and spaces is a Windows alias of . or .."
+  },
+  {
+   "id": "path-three-dots",
+   "document": {
+    "schema_version": 1,
+    "devcontainer_path": ".devcontainer/devcontainer.json",
+    "projects_path": "...",
+    "bundles": []
+   },
+   "expect_codes": [
+    "manifest.path_invalid"
+   ]
+  },
+  {
+   "id": "path-dot-space",
+   "document": {
+    "schema_version": 1,
+    "devcontainer_path": ".devcontainer/devcontainer.json",
+    "projects_path": ". ",
+    "bundles": []
+   },
+   "expect_codes": [
+    "manifest.path_invalid"
+   ]
+  },
+  {
+   "id": "path-dot-git-fullwidth-dot",
+   "document": {
+    "schema_version": 1,
+    "devcontainer_path": ".devcontainer/devcontainer.json",
+    "projects_path": ".git\uff0e",
+    "bundles": []
+   },
+   "expect_codes": [
+    "manifest.path_invalid"
+   ],
+   "note": "U+FF0E folds to a dot"
+  },
+  {
+   "id": "path-fullwidth-dot-git",
+   "document": {
+    "schema_version": 1,
+    "devcontainer_path": ".devcontainer/devcontainer.json",
+    "projects_path": "\uff0egit",
+    "bundles": []
+   },
+   "expect_codes": [
+    "manifest.path_invalid"
+   ]
+  },
+  {
+   "id": "path-dot-git-nbsp",
+   "document": {
+    "schema_version": 1,
+    "devcontainer_path": ".devcontainer/devcontainer.json",
+    "projects_path": ".git\u00a0",
+    "bundles": []
+   },
+   "expect_codes": [
+    "manifest.path_invalid"
+   ],
+   "note": "U+00A0 folds to a space"
+  },
+  {
+   "id": "path-dot-git-zero-width-space",
+   "document": {
+    "schema_version": 1,
+    "devcontainer_path": ".devcontainer/devcontainer.json",
+    "projects_path": ".git\u200b",
+    "bundles": []
+   },
+   "expect_codes": [
+    "manifest.path_invalid"
+   ],
+   "note": "U+200B is ignored by some file systems"
+  },
+  {
+   "id": "path-dot-git-ideographic-space",
+   "document": {
+    "schema_version": 1,
+    "devcontainer_path": ".devcontainer/devcontainer.json",
+    "projects_path": ".git\u3000",
+    "bundles": []
+   },
+   "expect_codes": [
+    "manifest.path_invalid"
+   ],
+   "note": "U+3000 folds to a space"
+  },
+  {
+   "id": "path-git-short-name",
+   "document": {
+    "schema_version": 1,
+    "devcontainer_path": ".devcontainer/devcontainer.json",
+    "projects_path": "a/GIT~1/b",
+    "bundles": []
+   },
+   "expect_codes": [
+    "manifest.path_invalid"
+   ],
+   "note": "8.3 short name of .git"
+  },
+  {
+   "id": "path-dot-git-stream-data",
+   "document": {
+    "schema_version": 1,
+    "devcontainer_path": ".devcontainer/devcontainer.json",
+    "projects_path": ".git::$DATA",
+    "bundles": []
+   },
+   "expect_codes": [
+    "manifest.path_invalid"
+   ],
+   "note": "NTFS alternate data stream spelling"
+  },
+  {
+   "id": "path-dot-git-stream-index",
+   "document": {
+    "schema_version": 1,
+    "devcontainer_path": ".devcontainer/devcontainer.json",
+    "projects_path": "x/.git::$INDEX_ALLOCATION",
+    "bundles": []
+   },
+   "expect_codes": [
+    "manifest.path_invalid"
+   ]
+  },
+  {
+   "id": "path-ok-colon-component",
+   "document": {
+    "schema_version": 1,
+    "devcontainer_path": ".devcontainer/devcontainer.json",
+    "projects_path": "a:b",
+    "bundles": []
+   },
+   "expect_codes": [],
+   "note": "a colon alone does not make a component .git"
+  },
+  {
+   "id": "path-ok-git-short-name-2",
+   "document": {
+    "schema_version": 1,
+    "devcontainer_path": ".devcontainer/devcontainer.json",
+    "projects_path": "GIT~2",
+    "bundles": []
+   },
+   "expect_codes": []
+  },
+  {
+   "id": "v2-project-https-leading-hyphen-host",
+   "document": {
+    "schema_version": 2,
+    "devcontainer_path": ".devcontainer/devcontainer.json",
+    "projects_path": "projects",
+    "bundles": [],
+    "project": {
+     "url": "https://-h/o/a",
+     "path": "projects/a"
+    }
+   },
+   "expect_codes": [
+    "manifest.schema"
+   ]
+  },
+  {
+   "id": "v2-project-ssh-leading-hyphen-host",
+   "document": {
+    "schema_version": 2,
+    "devcontainer_path": ".devcontainer/devcontainer.json",
+    "projects_path": "projects",
+    "bundles": [],
+    "project": {
+     "url": "ssh://u@-h/o/a",
+     "path": "projects/a"
+    }
+   },
+   "expect_codes": [
+    "manifest.schema"
+   ]
+  },
+  {
+   "id": "v2-project-ssh-leading-hyphen-user",
+   "document": {
+    "schema_version": 2,
+    "devcontainer_path": ".devcontainer/devcontainer.json",
+    "projects_path": "projects",
+    "bundles": [],
+    "project": {
+     "url": "ssh://-u@h/o/a",
+     "path": "projects/a"
+    }
+   },
+   "expect_codes": [
+    "manifest.schema"
+   ]
+  },
+  {
+   "id": "v2-project-uppercase-scheme-userinfo",
+   "document": {
+    "schema_version": 2,
+    "devcontainer_path": ".devcontainer/devcontainer.json",
+    "projects_path": "projects",
+    "bundles": [],
+    "project": {
+     "url": "HTTPS://u@h/o/a",
+     "path": "projects/a"
+    }
+   },
+   "expect_codes": [
+    "manifest.url_credentials"
+   ],
+   "note": "the scheme is compared case-insensitively before the credential test"
+  },
+  {
+   "id": "v2-project-http-userinfo-password",
+   "document": {
+    "schema_version": 2,
+    "devcontainer_path": ".devcontainer/devcontainer.json",
+    "projects_path": "projects",
+    "bundles": [],
+    "project": {
+     "url": "http://u:p@h/o/a",
+     "path": "projects/a"
+    }
+   },
+   "expect_codes": [
+    "manifest.url_credentials"
+   ]
+  },
+  {
+   "id": "v2-project-bad-escape-in-owner",
+   "document": {
+    "schema_version": 2,
+    "devcontainer_path": ".devcontainer/devcontainer.json",
+    "projects_path": "projects",
+    "bundles": [],
+    "project": {
+     "url": "https://f.example/o%zz/a.git",
+     "path": "projects/a"
+    }
+   },
+   "expect_codes": [
+    "manifest.schema"
+   ],
+   "note": "malformed percent escape alone; the name is valid"
+  },
+  {
+   "id": "v2-project-path-ignored-for-invalid-projects-path",
+   "document": {
+    "schema_version": 2,
+    "devcontainer_path": ".devcontainer/devcontainer.json",
+    "projects_path": "../x",
+    "bundles": [],
+    "project": {
+     "url": "https://f.example/o/a.git",
+     "path": "x/a"
+    }
+   },
+   "expect_codes": [
+    "manifest.path_invalid"
+   ],
+   "note": "no project.path comparison against an unusable projects_path"
+  },
+  {
+   "id": "raw-surrogate-then-trailing-comma",
+   "raw_text": "{\"a\":\"\\ud800\",}",
+   "expect_codes": [
+    "manifest.syntax"
+   ],
+   "note": "a syntax error outranks a lone surrogate"
+  },
+  {
+   "id": "raw-surrogate-then-missing-comma",
+   "raw_text": "[\"\\ud800\" 1]",
+   "expect_codes": [
+    "manifest.syntax"
+   ]
+  },
+  {
+   "id": "raw-surrogate-then-depth-129",
+   "raw_text": "[\"\\ud800\",[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[[]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]]",
+   "expect_codes": [
+    "manifest.syntax"
+   ]
+  },
+  {
+   "id": "raw-depth-129-objects-only",
+   "raw_text": "{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":1}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}",
+   "expect_codes": [
+    "manifest.syntax"
+   ],
+   "note": "nesting is counted for objects as for arrays"
+  },
+  {
+   "id": "raw-depth-128-objects-only",
+   "raw_text": "{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":{\"a\":1}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}}",
+   "expect_codes": [
+    "manifest.schema"
+   ],
+   "note": "128 levels are within the bound; the document is then not a manifest"
+  },
+  {
+   "id": "v2-project-host-trailing-dot",
+   "document": {
+    "schema_version": 2,
+    "devcontainer_path": ".devcontainer/devcontainer.json",
+    "projects_path": "projects",
+    "bundles": [],
+    "project": {
+     "url": "https://h./o/a",
+     "path": "projects/a"
+    }
+   },
+   "expect_codes": [],
+   "note": "the resolver admits one trailing dot"
+  },
+  {
+   "id": "v2-project-host-trailing-hyphen",
+   "document": {
+    "schema_version": 2,
+    "devcontainer_path": ".devcontainer/devcontainer.json",
+    "projects_path": "projects",
+    "bundles": [],
+    "project": {
+     "url": "https://h-/o/a",
+     "path": "projects/a"
+    }
+   },
+   "expect_codes": [
+    "manifest.schema"
+   ]
+  },
+  {
+   "id": "v2-project-host-leading-dot",
+   "document": {
+    "schema_version": 2,
+    "devcontainer_path": ".devcontainer/devcontainer.json",
+    "projects_path": "projects",
+    "bundles": [],
+    "project": {
+     "url": "https://.h/o/a",
+     "path": "projects/a"
+    }
+   },
+   "expect_codes": [
+    "manifest.schema"
+   ]
+  },
+  {
+   "id": "v2-project-host-empty-label",
+   "document": {
+    "schema_version": 2,
+    "devcontainer_path": ".devcontainer/devcontainer.json",
+    "projects_path": "projects",
+    "bundles": [],
+    "project": {
+     "url": "https://h..x/o/a",
+     "path": "projects/a"
+    }
+   },
+   "expect_codes": [
+    "manifest.schema"
+   ]
+  },
+  {
+   "id": "v2-project-host-two-trailing-dots",
+   "document": {
+    "schema_version": 2,
+    "devcontainer_path": ".devcontainer/devcontainer.json",
+    "projects_path": "projects",
+    "bundles": [],
+    "project": {
+     "url": "https://h../o/a",
+     "path": "projects/a"
+    }
+   },
+   "expect_codes": [
+    "manifest.schema"
+   ]
+  },
+  {
+   "id": "v2-project-host-label-leading-hyphen",
+   "document": {
+    "schema_version": 2,
+    "devcontainer_path": ".devcontainer/devcontainer.json",
+    "projects_path": "projects",
+    "bundles": [],
+    "project": {
+     "url": "https://a.-b/o/a",
+     "path": "projects/a"
+    }
+   },
+   "expect_codes": [
+    "manifest.schema"
+   ]
+  },
+  {
+   "id": "v2-project-ssh-host-trailing-dot",
+   "document": {
+    "schema_version": 2,
+    "devcontainer_path": ".devcontainer/devcontainer.json",
+    "projects_path": "projects",
+    "bundles": [],
+    "project": {
+     "url": "ssh://git@h./o/a",
+     "path": "projects/a"
+    }
+   },
+   "expect_codes": []
+  },
+  {
+   "id": "v2-project-ssh-host-leading-dot",
+   "document": {
+    "schema_version": 2,
+    "devcontainer_path": ".devcontainer/devcontainer.json",
+    "projects_path": "projects",
+    "bundles": [],
+    "project": {
+     "url": "ssh://git@.h/o/a",
+     "path": "projects/a"
+    }
+   },
+   "expect_codes": [
+    "manifest.schema"
+   ]
+  },
+  {
+   "id": "v2-project-ssh-host-trailing-hyphen",
+   "document": {
+    "schema_version": 2,
+    "devcontainer_path": ".devcontainer/devcontainer.json",
+    "projects_path": "projects",
+    "bundles": [],
+    "project": {
+     "url": "ssh://h-/o/a",
+     "path": "projects/a"
+    }
+   },
+   "expect_codes": [
+    "manifest.schema"
+   ]
+  },
+  {
+   "id": "v2-project-host-labels-ok",
+   "document": {
+    "schema_version": 2,
+    "devcontainer_path": ".devcontainer/devcontainer.json",
+    "projects_path": "projects",
+    "bundles": [],
+    "project": {
+     "url": "https://a-b.c1.example:8443/o/a",
+     "path": "projects/a"
+    }
+   },
+   "expect_codes": []
+  },
+  {
+   "id": "path-dot-git-byte-order-mark",
+   "document": {
+    "schema_version": 1,
+    "devcontainer_path": ".devcontainer/devcontainer.json",
+    "projects_path": ".git\ufeff",
+    "bundles": []
+   },
+   "expect_codes": [
+    "manifest.path_invalid"
+   ],
+   "note": "U+FEFF is dropped before the comparison"
   }
  ]
 }
