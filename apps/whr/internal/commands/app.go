@@ -44,9 +44,9 @@ type Handler func(ctx context.Context, call Call) (Result, error)
 
 // DefaultHandlers returns the handlers of the commands implemented so far.
 // `help` and `completion` are built in. Later work items add their commands
-// here (validate T026, doctor T027, init T030).
+// here (doctor T027, init T030).
 func DefaultHandlers() map[string]Handler {
-	return map[string]Handler{"version": versionHandler}
+	return map[string]Handler{"version": versionHandler, "workspace.validate": validateHandler}
 }
 
 func versionHandler(_ context.Context, call Call) (Result, error) {
@@ -156,6 +156,10 @@ func (a *app) run(ctx context.Context, e Entry, args []string) error {
 	}
 	res, err := h(ctx, Call{Entry: e, Args: args})
 	if err != nil {
+		var hf *humanFailure
+		if errors.As(err, &hf) && !a.jsonMode() {
+			_, _ = io.WriteString(a.env.Stdout, hf.human)
+		}
 		a.exit = w.Failure(e.ID, asError(err))
 		return nil
 	}

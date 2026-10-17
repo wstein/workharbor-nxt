@@ -62,9 +62,8 @@ var blockedOn = map[string]string{
 // pending names the work item of first-increment commands whose behavior is
 // delivered after this foundation.
 var pending = map[string]string{
-	"workspace.validate": "work item T026",
-	"host.doctor":        "work item T027",
-	"workspace.init":     "work item T030",
+	"host.doctor":    "work item T027",
+	"workspace.init": "work item T030",
 }
 
 // WaitsFor says what an unavailable command waits for.
